@@ -17,10 +17,10 @@ import (
 type Recolor struct {
 	picker *utils.FilePickerOrMediafire
 	button *widget.Button
+	ready bool
 }
 
 func (r *Recolor) View(w fyne.Window) fyne.CanvasObject {
-	ready := false
 	var chosenColor color.Color
 	colorRect := canvas.NewRectangle(chosenColor)
 	colorPicker := container.NewBorder(nil, nil, nil, container.New(utils.NewFixedSizeLayout(fyne.NewSize(35, 30)), colorRect), widget.NewButton("Choose color", func() {
@@ -28,7 +28,7 @@ func (r *Recolor) View(w fyne.Window) fyne.CanvasObject {
 			chosenColor = c
 			colorRect.FillColor = c
 			colorRect.Refresh()
-			newReady := chosenColor != nil && ready
+			newReady := chosenColor != nil && r.ready
 			if newReady {
 				r.button.Enable()
 			} else {
@@ -84,7 +84,7 @@ func (r *Recolor) View(w fyne.Window) fyne.CanvasObject {
 			}
 		})
 		r.picker = utils.NewFilePickerOrMediafire(func(isReady bool) {
-			ready = isReady
+			r.ready = isReady
 			if isReady && chosenColor != nil {
 				r.button.Enable()
 			} else {
