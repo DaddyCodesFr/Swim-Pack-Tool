@@ -4,11 +4,14 @@ import (
 	"bytes"
 	"errors"
 	"image"
+	"os"
 	"path"
 	"swim-pack-tool/rar"
 
+	"fyne.io/fyne/v2/storage"
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/dialog"
+	"fyne.io/fyne/v2/storage/repository"
 	"github.com/swim-services/swim_porter/utils"
 
 	_ "image/jpeg"
@@ -49,6 +52,15 @@ func SaveFile(data []byte, name string, w fyne.Window) {
 			writer.Close()
 		}
 	}, w)
+
+	home, err := os.UserHomeDir()
+	if err == nil {
+		lister, err := storage.ListerForURI(repository.NewFileURI(path.Join(home, "Downloads")))
+		if err == nil {
+			saveDialog.SetLocation(lister)
+		}
+	}
+
 	saveDialog.SetFileName(name)
 	saveDialog.Resize(fyne.Size{Width: 1000, Height: 700})
 	saveDialog.Show()
