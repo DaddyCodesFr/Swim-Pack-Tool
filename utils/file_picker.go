@@ -2,6 +2,9 @@ package utils
 
 import (
 	"io"
+	"os"
+	"path"
+	"slices"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/dialog"
@@ -72,4 +75,20 @@ func (f *FilePicker) Reader() io.ReadCloser {
 
 func (f *FilePicker) Filename() string {
 	return f.filename
+}
+
+func (f *FilePicker) OnDrop(uri fyne.URI) {
+	ext := path.Ext(uri.Name())
+	if slices.Contains(f.allowedExtensions, ext) {
+		var err error
+		f.reader, err = os.Open(uri.Path())
+		if err == nil {
+			f.filename = uri.Name()
+			f.button.SetText("Choose file (" + f.filename + ")")
+			if !f.isReady {
+				f.isReady = true
+				f.readyStateChange(true)
+			}
+		}
+	}
 }

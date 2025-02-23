@@ -30,6 +30,9 @@ func (f *SkyOverlay) View(w fyne.Window) fyne.CanvasObject {
 			if f.picker == nil {
 				return
 			}
+			f.button.Disable()
+			f.button.SetText("Making sky overlay...")
+			defer f.button.SetText("Make sky overlay")
 			defer f.picker.Clear()
 			data, err := io.ReadAll(f.picker.Reader())
 			if err != nil {
@@ -77,4 +80,10 @@ func (f *SkyOverlay) View(w fyne.Window) fyne.CanvasObject {
 	text := canvas.NewText("Swim Sky Maker", fyne.CurrentApp().Settings().Theme().Color(theme.ColorNameForeground, fyne.CurrentApp().Settings().ThemeVariant()))
 	text.TextSize = 50
 	return container.NewCenter(container.NewVBox(text, f.picker.Show(w), sliderContainer.Container(), shiftCubemapCheck, f.button))
+}
+
+func (f *SkyOverlay) OnDrop(uri fyne.URI) {
+	if f.picker != nil {
+		f.picker.OnDrop(uri)
+	}
 }

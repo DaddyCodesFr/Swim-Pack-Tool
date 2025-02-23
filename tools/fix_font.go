@@ -24,6 +24,9 @@ func (f *FixFont) View(w fyne.Window) fyne.CanvasObject {
 			if f.picker == nil {
 				return
 			}
+			f.button.Disable()
+			f.button.SetText("Fixing font...")
+			defer f.button.SetText("Fix font")
 			defer f.picker.Clear()
 			reader, err := f.picker.Reader()
 			if err != nil {
@@ -64,4 +67,10 @@ func (f *FixFont) View(w fyne.Window) fyne.CanvasObject {
 	text := canvas.NewText("Swim Font Fixer", fyne.CurrentApp().Settings().Theme().Color(theme.ColorNameForeground, fyne.CurrentApp().Settings().ThemeVariant()))
 	text.TextSize = 50
 	return container.NewCenter(container.NewVBox(text, f.picker.Show(w), f.button))
+}
+
+func (f *FixFont) OnDrop(uri fyne.URI) {
+	if f.picker != nil {
+		f.picker.OnDrop(uri)
+	}
 }

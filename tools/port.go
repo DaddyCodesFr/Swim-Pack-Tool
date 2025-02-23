@@ -24,6 +24,9 @@ func (p *Port) View(w fyne.Window) fyne.CanvasObject {
 	cubemapOverrideTextbox.Obj().PlaceHolder = "Auto"
 	if p.button == nil {
 		p.button = widget.NewButton("Port", func() {
+			p.button.Disable()
+			p.button.SetText("Porting...")
+			defer p.button.SetText("Port")
 			if p.picker == nil {
 				return
 			}
@@ -71,4 +74,10 @@ func (p *Port) View(w fyne.Window) fyne.CanvasObject {
 	text := canvas.NewText("Swim Pack Porter", fyne.CurrentApp().Settings().Theme().Color(theme.ColorNameForeground, fyne.CurrentApp().Settings().ThemeVariant()))
 	text.TextSize = 50
 	return container.NewCenter(container.NewVBox(text, p.picker.Show(w), shiftCubemapCheck, cubemapOverrideTextbox.Container(), p.button))
+}
+
+func (p *Port) OnDrop(uri fyne.URI) {
+	if p.picker != nil {
+		p.picker.OnDrop(uri)
+	}
 }

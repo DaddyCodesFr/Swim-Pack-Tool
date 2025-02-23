@@ -22,10 +22,13 @@ func (f *SkyPorter) View(w fyne.Window) fyne.CanvasObject {
 	shiftCubemapCheck := widget.NewCheck("Disable skybox offset", nil)
 
 	if f.button == nil {
-		f.button = widget.NewButton("Make sky overlay", func() {
+		f.button = widget.NewButton("Port sky", func() {
 			if f.picker == nil {
 				return
 			}
+			f.button.Disable()
+			f.button.SetText("Porting sky...")
+			defer f.button.SetText("Port sky")
 			defer f.picker.Clear()
 			data, err := io.ReadAll(f.picker.Reader())
 			if err != nil {
@@ -69,4 +72,10 @@ func (f *SkyPorter) View(w fyne.Window) fyne.CanvasObject {
 	text := canvas.NewText("Swim Sky Porter", fyne.CurrentApp().Settings().Theme().Color(theme.ColorNameForeground, fyne.CurrentApp().Settings().ThemeVariant()))
 	text.TextSize = 50
 	return container.NewCenter(container.NewVBox(text, f.picker.Show(w), shiftCubemapCheck, f.button))
+}
+
+func (f *SkyPorter) OnDrop(uri fyne.URI) {
+	if f.picker != nil {
+		f.picker.OnDrop(uri)
+	}
 }

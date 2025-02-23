@@ -4,6 +4,7 @@ import "fyne.io/fyne/v2"
 
 type Tool interface {
 	View(w fyne.Window) fyne.CanvasObject
+	OnDrop(uri fyne.URI)
 }
 
 func RegisterTools(r *Registry) {

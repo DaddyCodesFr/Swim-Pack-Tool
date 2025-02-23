@@ -28,6 +28,9 @@ func (i *InventoryMaker) View(w fyne.Window) fyne.CanvasObject {
 			if i.picker == nil {
 				return
 			}
+			i.button.Disable()
+			i.button.SetText("Making inventory...")
+			defer i.button.SetText("Make inventory")
 			defer i.picker.Clear()
 			data, err := io.ReadAll(i.picker.Reader())
 			if err != nil {
@@ -75,4 +78,10 @@ func (i *InventoryMaker) View(w fyne.Window) fyne.CanvasObject {
 	text := canvas.NewText("Swim Inventory Maker", fyne.CurrentApp().Settings().Theme().Color(theme.ColorNameForeground, fyne.CurrentApp().Settings().ThemeVariant()))
 	text.TextSize = 50
 	return container.NewCenter(container.NewVBox(text, i.picker.Show(w), addSlotsCheck, i.button))
+}
+
+func (i *InventoryMaker) OnDrop(uri fyne.URI) {
+	if i.picker != nil {
+		i.picker.OnDrop(uri)
+	}
 }

@@ -32,6 +32,9 @@ func (r *Rescale) View(w fyne.Window) fyne.CanvasObject {
 			if r.picker == nil {
 				return
 			}
+			r.button.Disable()
+			r.button.SetText("Rescaling...")
+			defer r.button.SetText("Rescale")
 			defer r.picker.Clear()
 			alg, ok := rescale.ParseAlgorithm(alg.Obj().Selected)
 			if !ok {
@@ -81,4 +84,10 @@ func (r *Rescale) View(w fyne.Window) fyne.CanvasObject {
 	text := canvas.NewText("Swim Pack Rescaler", fyne.CurrentApp().Settings().Theme().Color(theme.ColorNameForeground, fyne.CurrentApp().Settings().ThemeVariant()))
 	text.TextSize = 50
 	return container.NewCenter(container.NewVBox(text, r.picker.Show(w), scale.Container(), alg.Container(), r.button))
+}
+
+func (r *Rescale) OnDrop(uri fyne.URI) {
+	if r.picker != nil {
+		r.picker.OnDrop(uri)
+	}
 }

@@ -48,6 +48,9 @@ func (r *Recolor) View(w fyne.Window) fyne.CanvasObject {
 			if r.picker == nil {
 				return
 			}
+			r.button.Disable()
+			r.button.SetText("Recoloring...")
+			defer r.button.SetText("Recolor")
 			defer r.picker.Clear()
 			reader, err := r.picker.Reader()
 			if err != nil {
@@ -94,4 +97,10 @@ func (r *Recolor) View(w fyne.Window) fyne.CanvasObject {
 	text := canvas.NewText("Swim Pack Recolorer", fyne.CurrentApp().Settings().Theme().Color(theme.ColorNameForeground, fyne.CurrentApp().Settings().ThemeVariant()))
 	text.TextSize = 50
 	return container.NewCenter(container.NewVBox(text, r.picker.Show(w), colorPicker, alg.Container(), r.button))
+}
+
+func (r *Recolor) OnDrop(uri fyne.URI) {
+	if r.picker != nil {
+		r.picker.OnDrop(uri)
+	}
 }

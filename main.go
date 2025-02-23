@@ -22,10 +22,20 @@ func main() {
 
 	content := container.NewStack()
 
+	var currentTool tools.Tool
+	w.SetOnDropped(func(p fyne.Position, u []fyne.URI) {
+		if currentTool != nil {
+			if len(u) > 0 {
+				currentTool.OnDrop(u[0])
+			}
+		}
+	})
+
 	text := canvas.NewText("Swim Pack Tool", a.Settings().Theme().Color(theme.ColorNameForeground, a.Settings().ThemeVariant()))
 	text.TextSize = 25
 
 	split := container.NewBorder(nil, nil, container.New(utils.NewFixedSizeLayoutExpand(fyne.NewSize(200, 0)), container.NewBorder(text, nil, nil, nil, makeNav(func(t tools.Tool) {
+		currentTool = t
 		content.Objects = []fyne.CanvasObject{t.View(w)}
 		content.Refresh()
 	}, reg))), nil, content)

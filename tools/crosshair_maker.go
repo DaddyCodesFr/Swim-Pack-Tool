@@ -28,6 +28,9 @@ func (c *CrosshairMaker) View(w fyne.Window) fyne.CanvasObject {
 			if c.picker == nil {
 				return
 			}
+			c.button.Disable()
+			c.button.SetText("Making crosshair...")
+			defer c.button.SetText("Make crosshair")
 			defer c.picker.Clear()
 			data, err := io.ReadAll(c.picker.Reader())
 			if err != nil {
@@ -62,4 +65,10 @@ func (c *CrosshairMaker) View(w fyne.Window) fyne.CanvasObject {
 	text := canvas.NewText("Swim Crosshair Maker", fyne.CurrentApp().Settings().Theme().Color(theme.ColorNameForeground, fyne.CurrentApp().Settings().ThemeVariant()))
 	text.TextSize = 50
 	return container.NewCenter(container.NewVBox(text, c.picker.Show(w), size.Container(), colorCheck, c.button))
+}
+
+func (c *CrosshairMaker) OnDrop(uri fyne.URI) {
+	if c.picker != nil {
+		c.picker.OnDrop(uri)
+	}
 }

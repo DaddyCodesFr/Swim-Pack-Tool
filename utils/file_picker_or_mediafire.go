@@ -2,6 +2,9 @@ package utils
 
 import (
 	"io"
+	"os"
+	"path"
+	"slices"
 	"swim-pack-tool/mediafire"
 
 	"fyne.io/fyne/v2"
@@ -97,4 +100,20 @@ func (f *FilePickerOrMediafire) Reader() (io.ReadCloser, error) {
 
 func (f *FilePickerOrMediafire) Filename() string {
 	return f.filename
+}
+
+func (f *FilePickerOrMediafire) OnDrop(uri fyne.URI) {
+	ext := path.Ext(uri.Name())
+	if slices.Contains(f.allowedExtensions, ext) {
+		var err error
+		f.reader, err = os.Open(uri.Path())
+		if err == nil {
+			f.filename = uri.Name()
+			f.button.SetText("Choose file (" + f.filename + ")")
+			if !f.isReady {
+				f.isReady = true
+				f.readyStateChange(true)
+			}
+		}
+	}
 }

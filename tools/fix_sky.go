@@ -24,6 +24,9 @@ func (f *FixSky) View(w fyne.Window) fyne.CanvasObject {
 			if f.picker == nil {
 				return
 			}
+			f.button.Disable()
+			f.button.SetText("Fixing sky...")
+			defer f.button.SetText("Fix sky")
 			defer f.picker.Clear()
 			reader, err := f.picker.Reader()
 			if err != nil {
@@ -63,4 +66,10 @@ func (f *FixSky) View(w fyne.Window) fyne.CanvasObject {
 	text := canvas.NewText("Swim Sky Fixer", fyne.CurrentApp().Settings().Theme().Color(theme.ColorNameForeground, fyne.CurrentApp().Settings().ThemeVariant()))
 	text.TextSize = 50
 	return container.NewCenter(container.NewVBox(text, f.picker.Show(w), f.button))
+}
+
+func (f *FixSky) OnDrop(uri fyne.URI) {
+	if f.picker != nil {
+		f.picker.OnDrop(uri)
+	}
 }
