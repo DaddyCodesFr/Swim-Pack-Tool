@@ -45,7 +45,7 @@ Select the image you want, and then optionally with the slider modify the blend 
 <br>
 You can optionally disable the skybox offset if you like having your skies look unalligned for some reason.
 <br>
-Higher aspect ratio images yield far better results. How rectungular or how square shaped the image is will impact blending and quality.
+Higher aspect ratio images yield far better results. How rectangular or how square shaped the image is will impact blending and quality.
 
 ![sky](https://github.com/user-attachments/assets/d3eeb55e-9c4f-4aa5-8fd8-701042d3708a)
 
@@ -55,8 +55,15 @@ Converts any bedrock cubemap into a single image for a java edition sky. This is
 
 # Inventory maker
 Converts any image or gif into an inventory overlay texture pack. Gif sizes will apply and after a set amount of frames it will be cut off due to bedrock spritesheet limitations.
+<br>
+Tenor and Giphy links are supported
 <br><br>
 ![184106224-eddd3236-c07c-4de4-9d8b-020231f2077d](https://github.com/user-attachments/assets/26bfc737-141f-4937-b710-625413065909)
+
+# Pack Compressor
+Re-encodes pngs with best compression, minifies pack json, and compresses the zip with best compression.
+<br>
+Supports both java and bedrock packs + Mediafire links. For example, an average sized pvp pack is around 10 Mb. Encoding compression can save about ~1 Mb while zipped, and ~2 Mbs while unzipped.
 
 # Crosshair maker
 Converts any image into a crosshair overlay texutre pack. The image will be scaled down and transparent in appearance due to how mcpe renders crosshairs.
@@ -64,4 +71,4 @@ Converts any image into a crosshair overlay texutre pack. The image will be scal
 # Misc fixers
 This tool has some other small features for attempting to fix font, skies, and particles in existing packs. These can be very hit or miss. 
 <br>
-This simply won't work if the pack lacks somethin crucial like font or particles.
+This simply won't work if the pack lacks something crucial like font or particles.
