@@ -14,7 +14,7 @@ import (
 )
 
 type FixFont struct {
-	picker *utils.FilePickerOrMediafire
+	picker *utils.FilePickerOrLink
 	button *widget.Button
 }
 

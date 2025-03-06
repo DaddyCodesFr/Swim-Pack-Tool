@@ -18,4 +18,5 @@ func RegisterTools(r *Registry) {
 	r.RegisterTool("Java sky porter", &SkyPorter{})
 	r.RegisterTool("Inventory maker", &InventoryMaker{})
 	r.RegisterTool("Crosshair maker", &CrosshairMaker{})
+	r.RegisterTool("Compressor", &Compressor{})
 }

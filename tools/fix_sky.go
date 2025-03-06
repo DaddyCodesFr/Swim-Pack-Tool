@@ -14,7 +14,7 @@ import (
 )
 
 type FixSky struct {
-	picker *utils.FilePickerOrMediafire
+	picker *utils.FilePickerOrLink
 	button *widget.Button
 }
 

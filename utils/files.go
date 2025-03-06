@@ -8,9 +8,9 @@ import (
 	"path"
 	"swim-pack-tool/rar"
 
-	"fyne.io/fyne/v2/storage"
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/dialog"
+	"fyne.io/fyne/v2/storage"
 	"fyne.io/fyne/v2/storage/repository"
 	"github.com/swim-services/swim_porter/utils"
 
@@ -67,7 +67,11 @@ func SaveFile(data []byte, name string, w fyne.Window) {
 }
 
 func SaveMapFsAsZip(fs *utils.MapFS, name string, w fyne.Window) error {
-	data, err := utils.Zip(fs.RawMap())
+	return SaveMapFsAsZipCompressionLevel(fs, name, w, -3)
+}
+
+func SaveMapFsAsZipCompressionLevel(fs *utils.MapFS, name string, w fyne.Window, compressionLevel int) error {
+	data, err := utils.ZipCompressionLevel(fs.RawMap(), compressionLevel)
 	if err != nil {
 		return err
 	}

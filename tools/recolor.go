@@ -15,9 +15,9 @@ import (
 )
 
 type Recolor struct {
-	picker *utils.FilePickerOrMediafire
+	picker *utils.FilePickerOrLink
 	button *widget.Button
-	ready bool
+	ready  bool
 }
 
 func (r *Recolor) View(w fyne.Window) fyne.CanvasObject {

@@ -17,7 +17,7 @@ import (
 )
 
 type InventoryMaker struct {
-	picker *utils.FilePicker
+	picker *utils.FilePickerOrLink
 	button *widget.Button
 }
 
@@ -32,7 +32,12 @@ func (i *InventoryMaker) View(w fyne.Window) fyne.CanvasObject {
 			i.button.SetText("Making inventory...")
 			defer i.button.SetText("Make inventory")
 			defer i.picker.Clear()
-			data, err := io.ReadAll(i.picker.Reader())
+			reader, err := i.picker.Reader()
+			if err != nil {
+				dialog.NewError(err, w).Show()
+				return
+			}
+			data, err := io.ReadAll(reader)
 			if err != nil {
 				dialog.NewError(err, w).Show()
 				return
@@ -66,7 +71,7 @@ func (i *InventoryMaker) View(w fyne.Window) fyne.CanvasObject {
 			utils.SaveFile(zipped, name+"_inventory.mcpack", w)
 		})
 		i.button.Disable()
-		i.picker = utils.NewFilePicker(func(isReady bool) {
+		i.picker = utils.NewFilePickerOrGifLink(func(isReady bool) {
 			if isReady {
 				i.button.Enable()
 			} else {
